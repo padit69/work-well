@@ -40,6 +40,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
 
     /// Countdown seconds per reminder type (drives auto full-screen reminders).
     private var secondsRemainingPerType: [ReminderType: Int] = [:]
+    /// Last time we ticked countdowns. Used so sleep/wake still advances based on real elapsed time.
+    private var lastTickDate: Date?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         setupStatusItem()
@@ -250,7 +252,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
     private func setupStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         guard let button = statusItem?.button else { return }
-        button.image = NSImage(systemSymbolName: "drop.fill", accessibilityDescription: "WorkWell")
+        button.image = NSImage(resource: .menuLogo)
         button.toolTip = AppConstants.App.name
         button.title = "" // chỉ hiển thị icon, countdown nằm trong menu
 
@@ -308,6 +310,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         let (workStart, workEnd) = ReminderSchedulingService.workWindow(for: preferences, on: now)
         let inWorkHours = now >= workStart && now <= workEnd
 
+        // Compute how many seconds have actually passed since last tick.
+        let elapsedSeconds: Int
+        if let last = lastTickDate {
+            elapsedSeconds = max(1, Int(now.timeIntervalSince(last)))
+        } else {
+            elapsedSeconds = 1
+        }
+        lastTickDate = now
+
         for type in [ReminderType.water, ReminderType.eyeRest, ReminderType.movement] {
             let enabled: Bool
             let intervalMinutes: Int
@@ -332,6 +343,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
 
             let intervalSeconds = intervalMinutes * 60
             var remaining = secondsRemainingPerType[type] ?? intervalSeconds
+
+            // Advance countdown by real elapsed time (so sleep doesn't "pause" progress).
+            remaining -= elapsedSeconds
 
             if remaining <= 0 {
                 // Time's up: show reminder if no full-screen window is already visible.

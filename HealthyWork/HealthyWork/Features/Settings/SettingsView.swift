@@ -36,29 +36,27 @@ private struct StyleOptionCard: View {
 
     var body: some View {
         Button(action: onSelect) {
-            HStack(spacing: 16) {
-                ZStack {
-                    Circle()
-                        .fill(isSelected ? style.accentColor.opacity(0.2) : Color.gray.opacity(0.1))
-                        .frame(width: 44, height: 44)
-                    Image(systemName: style.icon)
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(isSelected ? style.accentColor : .gray)
-                }
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(style.rawValue)
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(.primary)
-                    Text(style.description)
-                        .font(.system(size: 11))
-                        .foregroundColor(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                Spacer()
-                if isSelected {
-                    Image(systemName: "checkmark.circle.fill")
-                        .font(.system(size: 20))
-                        .foregroundColor(style.accentColor)
+            ZStack {
+                VStack(spacing: 16) {
+                    ZStack {
+                        Circle()
+                            .fill(isSelected ? style.accentColor.opacity(0.2) : Color.gray.opacity(0.1))
+                            .frame(width: 44, height: 44)
+                        Image(systemName: style.icon)
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(isSelected ? style.accentColor : .gray)
+                    }
+                    VStack(alignment: .center, spacing: 4) {
+                        Text(style.rawValue)
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.primary)
+                        Text(style.description)
+                            .font(.system(size: 11))
+                            .foregroundColor(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .multilineTextAlignment(.center)
+                    }
+                    
                 }
             }
             .padding(12)
