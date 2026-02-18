@@ -20,7 +20,9 @@ struct WindowAccessor: NSViewRepresentable {
 
     class Coordinator: NSObject, NSWindowDelegate {
         func windowShouldClose(_ sender: NSWindow) -> Bool {
+            // Hide main window instead of closing, and switch app to background (menu-bar only).
             sender.orderOut(nil)
+            NSApp.setActivationPolicy(.accessory)
             return false
         }
     }
