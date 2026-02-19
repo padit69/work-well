@@ -11,6 +11,9 @@ import UserNotifications
 final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
     private var statusItem: NSStatusItem?
     private var statusMenu: NSMenu?
+    private var nextRemindersHeaderItem: NSMenuItem?
+    private var openSettingsMenuItem: NSMenuItem?
+    private var quitMenuItem: NSMenuItem?
     private var countdownTimer: Timer?
     private var waterCountdownItem: NSMenuItem?
     private var eyeCountdownItem: NSMenuItem?
@@ -277,22 +280,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
 
         let menu = NSMenu()
 
-        // Countdown section
-        let headerItem = NSMenuItem(title: "Next reminders", action: nil, keyEquivalent: "")
+        // Countdown section (localized)
+        let headerItem = NSMenuItem(title: "Next reminders".localizedByKey, action: nil, keyEquivalent: "")
         headerItem.isEnabled = false
         menu.addItem(headerItem)
+        nextRemindersHeaderItem = headerItem
 
-        let waterItem = NSMenuItem(title: "Water — --:--", action: nil, keyEquivalent: "")
+        let waterLabel = "Water".localizedByKey
+        let waterItem = NSMenuItem(title: "\(waterLabel) — --:--", action: nil, keyEquivalent: "")
         waterItem.isEnabled = false
         menu.addItem(waterItem)
         waterCountdownItem = waterItem
 
-        let eyeItem = NSMenuItem(title: "Eye rest — --:--", action: nil, keyEquivalent: "")
+        let eyeLabel = "Eye rest".localizedByKey
+        let eyeItem = NSMenuItem(title: "\(eyeLabel) — --:--", action: nil, keyEquivalent: "")
         eyeItem.isEnabled = false
         menu.addItem(eyeItem)
         eyeCountdownItem = eyeItem
 
-        let movementItem = NSMenuItem(title: "Movement — --:--", action: nil, keyEquivalent: "")
+        let movementLabel = "Movement".localizedByKey
+        let movementItem = NSMenuItem(title: "\(movementLabel) — --:--", action: nil, keyEquivalent: "")
         movementItem.isEnabled = false
         menu.addItem(movementItem)
         movementCountdownItem = movementItem
@@ -303,10 +310,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         let openItem = NSMenuItem(title: "Open Settings".localizedByKey, action: #selector(openSettings), keyEquivalent: "")
         openItem.target = self
         menu.addItem(openItem)
+        openSettingsMenuItem = openItem
 
         let quitItem = NSMenuItem(title: "Quit".localizedByKey, action: #selector(quit), keyEquivalent: "q")
         quitItem.target = self
+        if let quitImage = NSImage(systemSymbolName: "rectangle.portrait.and.arrow.right", accessibilityDescription: "Quit") {
+            quitImage.isTemplate = true
+            quitItem.image = quitImage
+        }
         menu.addItem(quitItem)
+        quitMenuItem = quitItem
 
         statusItem?.menu = menu
         self.statusMenu = menu
@@ -403,22 +416,31 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
             return String(format: "%02d:%02d", minutes, secs)
         }
 
+        // Keep menu bar labels in sync with current language
+        nextRemindersHeaderItem?.title = "Next reminders".localizedByKey
+        openSettingsMenuItem?.title = "Open Settings".localizedByKey
+        quitMenuItem?.title = "Quit".localizedByKey
+
+        let waterLabel = "Water".localizedByKey
+        let eyeLabel = "Eye rest".localizedByKey
+        let movementLabel = "Movement".localizedByKey
+
         if let w = timeRemaining(for: .water) {
-            waterCountdownItem?.title = "Water — \(format(w))"
+            waterCountdownItem?.title = "\(waterLabel) — \(format(w))"
         } else {
-            waterCountdownItem?.title = "Water — --:--"
+            waterCountdownItem?.title = "\(waterLabel) — --:--"
         }
 
         if let e = timeRemaining(for: .eyeRest) {
-            eyeCountdownItem?.title = "Eye rest — \(format(e))"
+            eyeCountdownItem?.title = "\(eyeLabel) — \(format(e))"
         } else {
-            eyeCountdownItem?.title = "Eye rest — --:--"
+            eyeCountdownItem?.title = "\(eyeLabel) — --:--"
         }
 
         if let m = timeRemaining(for: .movement) {
-            movementCountdownItem?.title = "Movement — \(format(m))"
+            movementCountdownItem?.title = "\(movementLabel) — \(format(m))"
         } else {
-            movementCountdownItem?.title = "Movement — --:--"
+            movementCountdownItem?.title = "\(movementLabel) — --:--"
         }
     }
 
