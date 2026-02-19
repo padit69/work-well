@@ -6,7 +6,7 @@
 
 **WorkWell** (HealthyWork) là ứng dụng macOS giúp bạn làm việc lành mạnh hơn bằng cách nhắc uống nước, nghỉ mắt (20–20–20) và đứng dậy vận động. Phù hợp cho dân văn phòng, lập trình viên, designer, học sinh – sinh viên.
 
-**WorkWell** is a macOS app that reminds you to stay hydrated, rest your eyes (20–20–20 rule), and take short movement breaks—designed for desk workers, developers, designers, and students.
+**WorkWell** is a macOS app that reminds you to stay hydrated, rest your eyes (20–20–20 rule), and take short movement breaks—designed for desk workers, developers, designers, and students...
 
 ---
 
