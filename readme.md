@@ -113,6 +113,12 @@ healthy-work/
 
 ---
 
+## 🔐 Ký & notarize (cho maintainer)
+
+Để bản release không bị lỗi **"damaged and can't be opened"** trên máy user, cần bật **code signing** và **notarization** trong CI. Xem hướng dẫn đầy đủ: [docs/SIGNING.md](docs/SIGNING.md).
+
+---
+
 ## 🤝 Đóng góp / Contributing
 
 Mọi đóng góp đều được chào đón (báo lỗi, đề xuất tính năng, pull request). Nếu bạn muốn đóng góp code:

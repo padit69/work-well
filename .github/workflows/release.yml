@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*.*.*'  # Triggers on tags like v1.0.0, v1.2.3, etc.
 
+# Set to "true" in repo Settings → Variables to enable code signing + notarization (requires secrets).
+env:
+  ENABLE_CODE_SIGNING: ${{ vars.ENABLE_CODE_SIGNING || 'false' }}
+
 jobs:
   release:
     name: Build and Release
@@ -21,9 +25,26 @@ jobs:
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
       
+      - name: Set signing identity
+        id: signing
+        run: |
+          if [ "${{ env.ENABLE_CODE_SIGNING }}" = "true" ]; then
+            echo "identity=Developer ID Application" >> $GITHUB_OUTPUT
+          else
+            echo "identity=" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Import code signing certificate
+        if: env.ENABLE_CODE_SIGNING == 'true'
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          p12-password: ${{ secrets.P12_PASSWORD }}
+      
       - name: Show build environment
         run: |
           echo "Building version: ${{ steps.get_version.outputs.VERSION }}"
+          echo "Code signing: ${{ env.ENABLE_CODE_SIGNING }}"
           xcodebuild -version
           xcode-select -p
           sw_vers
@@ -31,15 +52,27 @@ jobs:
       - name: Build app
         run: |
           cd HealthyWork
-          xcodebuild \
-            -project HealthyWork.xcodeproj \
-            -scheme HealthyWork \
-            -configuration Release \
-            -derivedDataPath ./build \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
-            clean build
+          IDENTITY="${{ steps.signing.outputs.identity }}"
+          if [ -n "$IDENTITY" ]; then
+            xcodebuild \
+              -project HealthyWork.xcodeproj \
+              -scheme HealthyWork \
+              -configuration Release \
+              -derivedDataPath ./build \
+              CODE_SIGN_IDENTITY="$IDENTITY" \
+              CODE_SIGN_STYLE=Manual \
+              clean build
+          else
+            xcodebuild \
+              -project HealthyWork.xcodeproj \
+              -scheme HealthyWork \
+              -configuration Release \
+              -derivedDataPath ./build \
+              CODE_SIGN_IDENTITY="" \
+              CODE_SIGNING_REQUIRED=NO \
+              CODE_SIGNING_ALLOWED=NO \
+              clean build
+          fi
       
       - name: Verify build
         run: |
@@ -51,6 +84,26 @@ jobs:
             echo "❌ App bundle not found"
             exit 1
           fi
+      
+      - name: Notarize app
+        if: env.ENABLE_CODE_SIGNING == 'true'
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          cd HealthyWork/build/Build/Products/Release
+          echo "Creating zip for notary submission..."
+          ditto -c -k --keepParent HealthyWork.app HealthyWork-notarize.zip
+          echo "Submitting to Apple Notary..."
+          xcrun notarytool submit HealthyWork-notarize.zip \
+            --apple-id "$APPLE_ID" \
+            --password "$APPLE_APP_SPECIFIC_PASSWORD" \
+            --team-id "$APPLE_TEAM_ID" \
+            --wait
+          echo "Stapling notarization ticket to app..."
+          xcrun stapler staple "HealthyWork.app"
+          echo "✅ Notarization complete"
       
       - name: Package app as ZIP
         run: |
@@ -126,10 +179,8 @@ jobs:
           
           ### 🔐 Security Note
           
-          This build is not code-signed. On first launch:
-          1. Right-click (or Control-click) **HealthyWork.app**
-          2. Choose **Open**
-          3. Click **Open** in the security dialog
+          **Signed & notarized builds** (when enabled for the repo): open the app normally.  
+          **Unsigned builds**: on first launch, right-click (or Control-click) **HealthyWork.app** → **Open** → **Open** in the dialog.
           
           ### ✨ Features
           
