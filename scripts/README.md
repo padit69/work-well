@@ -1,6 +1,6 @@
 # Scripts Directory
 
-This directory contains helper scripts for building and releasing the Eye Reminder app.
+This directory contains helper scripts for building and releasing the HealthyWork app.
 
 ## Available Scripts
 

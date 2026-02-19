@@ -81,7 +81,7 @@ jobs:
           ln -s /Applications dmg_contents/Applications
           
           # Create DMG using hdiutil
-          hdiutil create -volname "Eye Reminder ${{ steps.get_version.outputs.VERSION }}" \
+          hdiutil create -volname "HealthyWork ${{ steps.get_version.outputs.VERSION }}" \
             -srcfolder dmg_contents \
             -ov -format UDZO \
             HealthyWork-${{ steps.get_version.outputs.VERSION }}.dmg
@@ -92,7 +92,7 @@ jobs:
       
       - name: Generate checksums
         run: |
-          cd HealthyWork/artifacts
+          cd artifacts
           shasum -a 256 HealthyWork-${{ steps.get_version.outputs.VERSION }}.zip > checksums.txt
           shasum -a 256 HealthyWork-${{ steps.get_version.outputs.VERSION }}.dmg >> checksums.txt
           cat checksums.txt
@@ -100,75 +100,72 @@ jobs:
       - name: Generate release notes
         id: release_notes
         run: |
-          cat > release_notes.md << 'EOF'
-          ## 👁️ Eye Reminder ${{ steps.get_version.outputs.VERSION }}
+          cat > release_notes.md << RELEASE_NOTES_EOF
+          ## WorkWell (HealthyWork) ${{ steps.get_version.outputs.VERSION }}
           
-          A gentle macOS menu bar application that reminds you to rest your eyes at regular intervals, following the 20-20-20 rule.
+          **WorkWell** is a macOS app that helps you work healthier: reminders to **drink water**, **rest your eyes** (20–20–20 rule), and **stand up & move**. Built for desk workers, developers, designers, and students.
           
           ### 📦 Installation
           
           **Option 1: DMG Installer (Recommended)**
-          1. Download `HealthyWork-${{ steps.get_version.outputs.VERSION }}.dmg`
+          1. Download \`HealthyWork-${{ steps.get_version.outputs.VERSION }}.dmg\`
           2. Open the DMG file
-          3. Drag Eye Reminder to your Applications folder
+          3. Drag **HealthyWork** into **Applications**
           4. Launch from Applications
           
           **Option 2: ZIP Archive**
-          1. Download `HealthyWork-${{ steps.get_version.outputs.VERSION }}.zip`
+          1. Download \`HealthyWork-${{ steps.get_version.outputs.VERSION }}.zip\`
           2. Extract the archive
-          3. Move Eye Reminder.app to your Applications folder
+          3. Move **HealthyWork.app** to **Applications**
           4. Launch from Applications
           
           ### ⚙️ System Requirements
           
-          - macOS 13.0 (Ventura) or later
+          - macOS 14.0 (Sonoma) or later
           - Apple Silicon or Intel processor
           
           ### 🔐 Security Note
           
-          This app is not code-signed. On first launch:
-          1. Right-click (or Control-click) on Eye Reminder.app
-          2. Select "Open" from the context menu
-          3. Click "Open" in the security dialog
+          This build is not code-signed. On first launch:
+          1. Right-click (or Control-click) **HealthyWork.app**
+          2. Choose **Open**
+          3. Click **Open** in the security dialog
           
           ### ✨ Features
           
-          - Menu bar integration
-          - Customizable reminder intervals (5-60 minutes)
-          - Adjustable reminder duration (10-120 seconds)
-          - Gentle full-screen overlay
-          - Launch at login option
-          - Follows the 20-20-20 rule for eye health
+          - 💧 **Water reminders** – Daily goal by weight, reminders by interval or work hours, tracking & charts
+          - 👀 **Eye rest (20–20–20)** – Every 20 min, look 20 feet away for 20 seconds; countdown, light/focus modes
+          - 🚶 **Stand & move** – Remind every 30/45/60 min; stretch/walk tips; “in meeting” pause
+          - 📊 **Stats & streaks** – Track water, eye rest, movement; daily streaks and compliance
+          - ⚙️ Work hours, notification style (banner/sound/snooze), light/dark, Vietnamese/English
           
-          ### 📝 Checksums
+          ### 📝 Checksums (SHA-256)
           
-          ```
-          $(cat HealthyWork/artifacts/checksums.txt)
-          ```
+          \`\`\`
+          $(cat artifacts/checksums.txt)
+          \`\`\`
           
-          ### 🐛 Known Issues
+          ### 🐛 Issues & feedback
           
-          If you encounter any issues, please [report them on GitHub](https://github.com/${{ github.repository }}/issues).
+          [Open an issue](https://github.com/${{ github.repository }}/issues) if you find a bug or have a suggestion.
           
           ---
           
-          **Take care of your eyes! 👁️**
-          EOF
-          
-          cat release_notes.md
+          **WorkWell** – Stay healthy while you work. 💧👀🚶
+          RELEASE_NOTES_EOF
           echo "notes_file=release_notes.md" >> $GITHUB_OUTPUT
       
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          name: Eye Reminder ${{ steps.get_version.outputs.VERSION }}
+          name: HealthyWork ${{ steps.get_version.outputs.VERSION }}
           body_path: release_notes.md
           draft: false
           prerelease: ${{ contains(steps.get_version.outputs.VERSION, 'alpha') || contains(steps.get_version.outputs.VERSION, 'beta') || contains(steps.get_version.outputs.VERSION, 'rc') }}
           files: |
-            HealthyWork/artifacts/HealthyWork-${{ steps.get_version.outputs.VERSION }}.zip
-            HealthyWork/artifacts/HealthyWork-${{ steps.get_version.outputs.VERSION }}.dmg
-            HealthyWork/artifacts/checksums.txt
+            artifacts/HealthyWork-${{ steps.get_version.outputs.VERSION }}.zip
+            artifacts/HealthyWork-${{ steps.get_version.outputs.VERSION }}.dmg
+            artifacts/checksums.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
