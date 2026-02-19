@@ -304,10 +304,10 @@ private struct MinimalReminderStyleView: View {
                     .font(.system(size: 76, weight: .regular))
                     .foregroundColor(type.color.opacity(0.85))
                 VStack(spacing: 12) {
-                    Text(type.title)
+                    Text(type.title.localizedByKey)
                         .font(.system(size: 32, weight: .semibold))
                         .foregroundColor(Color(red: 0.2, green: 0.2, blue: 0.2))
-                    Text(type.subtitle)
+                    Text(type.subtitle.localizedByKey)
                         .font(.system(size: 17))
                         .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                         .multilineTextAlignment(.center)
