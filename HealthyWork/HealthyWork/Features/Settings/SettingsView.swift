@@ -394,6 +394,7 @@ struct SettingsView: View {
                                 Label("Water", systemImage: "drop.fill")
                                     .font(.system(size: 13, weight: .medium))
                                     .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 5)
                             }
                             .buttonStyle(.bordered)
                             .controlSize(.regular)
@@ -401,6 +402,7 @@ struct SettingsView: View {
                                 Label("Eye Rest", systemImage: "eye.fill")
                                     .font(.system(size: 13, weight: .medium))
                                     .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 5)
                             }
                             .buttonStyle(.bordered)
                             .controlSize(.regular)
@@ -408,6 +410,7 @@ struct SettingsView: View {
                                 Label("Movement", systemImage: "figure.stand")
                                     .font(.system(size: 13, weight: .medium))
                                     .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 5)
                             }
                             .buttonStyle(.bordered)
                             .controlSize(.regular)

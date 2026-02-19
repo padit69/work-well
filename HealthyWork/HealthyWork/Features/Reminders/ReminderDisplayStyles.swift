@@ -93,6 +93,8 @@ private struct ModernReminderStyleView: View {
     let primaryButton: (title: String, action: () -> Void)
     let secondaryButton: (title: String, action: () -> Void)?
 
+    @State private var iconOffset: CGFloat = 0
+
     var body: some View {
         ZStack {
             LinearGradient(
@@ -109,6 +111,7 @@ private struct ModernReminderStyleView: View {
             VStack(spacing: 24) {
                 Spacer()
                 iconSection
+                    .offset(y: iconOffset)
                 titleSection
                 centerSection
                 Spacer()
@@ -118,6 +121,24 @@ private struct ModernReminderStyleView: View {
             }
             .padding(40)
             .scaleEffect(scale)
+        }
+        .onAppear {
+            let amplitude: CGFloat
+            switch type {
+            case .water:
+                amplitude = 10
+            case .movement:
+                amplitude = 14
+            case .eyeRest:
+                amplitude = 8
+            }
+
+            withAnimation(
+                .easeInOut(duration: 1.8)
+                    .repeatForever(autoreverses: true)
+            ) {
+                iconOffset = -amplitude
+            }
         }
     }
 
@@ -410,6 +431,9 @@ private struct BoldReminderStyleView: View {
     let primaryButton: (title: String, action: () -> Void)
     let secondaryButton: (title: String, action: () -> Void)?
 
+    @State private var iconRotation: Double = 0
+    @State private var iconVerticalOffset: CGFloat = 0
+
     var body: some View {
         ZStack {
             primaryColor.opacity(0.85)
@@ -443,6 +467,9 @@ private struct BoldReminderStyleView: View {
                         .scaleEffect(breathingScale)
                         .shadow(color: .black.opacity(0.25), radius: 12, x: 0, y: 6)
                 }
+                .rotationEffect(.degrees(iconRotation))
+                .offset(y: iconVerticalOffset)
+
                 VStack(spacing: 12) {
                     Text(type.title)
                         .font(.system(size: 40, weight: .black))
@@ -455,6 +482,7 @@ private struct BoldReminderStyleView: View {
                         .foregroundColor(.white.opacity(0.95))
                 }
                 .multilineTextAlignment(.center)
+
                 if let countdown = countdown {
                     ZStack {
                         Circle()
@@ -481,7 +509,9 @@ private struct BoldReminderStyleView: View {
                 } else {
                     Spacer().frame(height: 20)
                 }
+
                 Spacer()
+
                 HStack(spacing: 14) {
                     if let secondary = secondaryButton {
                         Button(action: secondary.action) {
@@ -515,11 +545,37 @@ private struct BoldReminderStyleView: View {
                     }
                     .buttonStyle(.plain)
                 }
+
                 shortcutHint
                 Spacer().frame(height: 32)
             }
             .padding(40)
             .scaleEffect(scale)
+        }
+        .onAppear {
+            switch type {
+            case .movement:
+                withAnimation(
+                    .easeInOut(duration: 1.4)
+                        .repeatForever(autoreverses: true)
+                ) {
+                    iconRotation = 6
+                }
+            case .water:
+                withAnimation(
+                    .easeInOut(duration: 1.9)
+                        .repeatForever(autoreverses: true)
+                ) {
+                    iconVerticalOffset = -10
+                }
+            case .eyeRest:
+                withAnimation(
+                    .easeInOut(duration: 2.1)
+                        .repeatForever(autoreverses: true)
+                ) {
+                    iconVerticalOffset = -6
+                }
+            }
         }
     }
 
