@@ -478,7 +478,6 @@ struct SettingsView: View {
                             isSelected: viewModel.preferences.reminderDisplayStyle == style,
                             onSelect: { viewModel.preferences.reminderDisplayStyle = style }
                         )
-                        .frame(maxWidth: .infinity)
                     }
                 }
                 .padding(.vertical, 8)
@@ -537,7 +536,6 @@ struct SettingsView: View {
                         }
                     }
                     .labelsHidden()
-                    .frame(maxWidth: 160)
                 }
                 LabeledContent("Language") {
                     Picker("", selection: $viewModel.preferences.language) {
@@ -545,7 +543,6 @@ struct SettingsView: View {
                         Text("Tiếng Việt").tag(UserPreferences.Language.vi)
                     }
                     .labelsHidden()
-                    .frame(maxWidth: 160)
                 }
                 LabeledContent {
                     Toggle("", isOn: $viewModel.preferences.minimalMode)

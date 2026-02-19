@@ -40,7 +40,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
 
     /// Countdown seconds per reminder type (drives auto full-screen reminders).
     private var secondsRemainingPerType: [ReminderType: Int] = [:]
-    /// Last time we ticked countdowns. Used so sleep/wake still advances based on real elapsed time.
+    /// Last time we ticked countdowns. Reset on wake so countdown does not advance while system is sleeping.
     private var lastTickDate: Date?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -61,6 +61,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
             name: .showReminder,
             object: nil
         )
+
+        // Khi Mac wake từ sleep: reset lastTickDate để countdown không trừ cả thời gian ngủ.
+        NSWorkspace.shared.notificationCenter.addObserver(
+            self,
+            selector: #selector(handleWakeFromSleep(_:)),
+            name: NSWorkspace.didWakeNotification,
+            object: nil
+        )
+    }
+
+    @objc private func handleWakeFromSleep(_ notification: Notification) {
+        DispatchQueue.main.async { [weak self] in
+            self?.lastTickDate = Date()
+        }
     }
 
     @objc private func handleShowReminderNotification(_ notification: Notification) {
@@ -133,6 +147,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
 
     deinit {
         NotificationCenter.default.removeObserver(self)
+        NSWorkspace.shared.notificationCenter.removeObserver(self)
         countdownTimer?.invalidate()
     }
 
@@ -285,11 +300,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         menu.addItem(NSMenuItem.separator())
 
         // App actions
-        let openItem = NSMenuItem(title: "Open Settings", action: #selector(openSettings), keyEquivalent: "")
+        let openItem = NSMenuItem(title: "Open Settings".localizedByKey, action: #selector(openSettings), keyEquivalent: "")
         openItem.target = self
         menu.addItem(openItem)
 
-        let quitItem = NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: "Quit".localizedByKey, action: #selector(quit), keyEquivalent: "q")
         quitItem.target = self
         menu.addItem(quitItem)
 
@@ -348,7 +363,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
             let intervalSeconds = intervalMinutes * 60
             var remaining = secondsRemainingPerType[type] ?? intervalSeconds
 
-            // Advance countdown by real elapsed time (so sleep doesn't "pause" progress).
+            // Advance countdown by elapsed time since last tick. On wake from sleep we reset lastTickDate so this is ~1s only (countdown paused while sleeping).
             remaining -= elapsedSeconds
 
             if remaining <= 0 {
