@@ -15,7 +15,7 @@ enum StatsService {
         let predicate = #Predicate<WaterRecord> { record in
             record.date >= today
         }
-        var descriptor = FetchDescriptor<WaterRecord>(predicate: predicate)
+        let descriptor = FetchDescriptor<WaterRecord>(predicate: predicate)
         guard let list = try? context.fetch(descriptor) else { return 0 }
         return list.count
     }
@@ -35,7 +35,7 @@ enum StatsService {
         let predicate = #Predicate<ReminderLog> { log in
             log.typeRaw == raw && log.completed == completed && log.completedAt >= start && log.completedAt < end
         }
-        var descriptor = FetchDescriptor<ReminderLog>(predicate: predicate)
+        let descriptor = FetchDescriptor<ReminderLog>(predicate: predicate)
         return (try? context.fetchCount(descriptor)) ?? 0
     }
 
@@ -66,7 +66,7 @@ enum StatsService {
         let predicate = #Predicate<ReminderLog> { log in
             log.typeRaw == raw && log.completed == completed && log.completedAt >= start && log.completedAt < end
         }
-        var descriptor = FetchDescriptor<ReminderLog>(predicate: predicate)
+        let descriptor = FetchDescriptor<ReminderLog>(predicate: predicate)
         return (try? context.fetchCount(descriptor)) ?? 0
     }
 

@@ -87,7 +87,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
             self?.showFullScreenReminder(type)
         }
     }
-
+    
+    @MainActor
     func showFullScreenReminder(_ type: ReminderType) {
         closeFullScreenReminderWindow()
         // Ẩn cửa sổ Settings (nếu đang mở) để sau khi tắt reminder

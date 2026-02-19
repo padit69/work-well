@@ -35,7 +35,7 @@ enum WaterService {
         let predicate = #Predicate<WaterRecord> { record in
             record.date >= start && record.date < end
         }
-        var descriptor = FetchDescriptor<WaterRecord>(predicate: predicate)
+        let descriptor = FetchDescriptor<WaterRecord>(predicate: predicate)
         guard let list = try? context.fetch(descriptor) else { return 0 }
         return list.reduce(0) { $0 + $1.amountMl }
     }
