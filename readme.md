@@ -1,191 +1,149 @@
-🧠💧 WorkWell – Healthy Work Reminder App
+# WorkWell – Healthy Work Reminder
 
-WorkWell là ứng dụng giúp người làm việc lâu với máy tính giữ sức khỏe mỗi ngày bằng cách nhắc:
+[![Build](https://github.com/YOUR_USERNAME/healthy-work/actions/workflows/build.yml/badge.svg)](https://github.com/YOUR_USERNAME/healthy-work/actions/workflows/build.yml)
+[![Release](https://github.com/YOUR_USERNAME/healthy-work/actions/workflows/release.yml/badge.svg)](https://github.com/YOUR_USERNAME/healthy-work/actions/workflows/release.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Uống nước đúng giờ
+**WorkWell** (HealthyWork) là ứng dụng macOS giúp bạn làm việc lành mạnh hơn bằng cách nhắc uống nước, nghỉ mắt (20–20–20) và đứng dậy vận động. Phù hợp cho dân văn phòng, lập trình viên, designer, học sinh – sinh viên.
 
-Nghỉ ngơi cho mắt (20–20–20)
+**WorkWell** is a macOS app that reminds you to stay hydrated, rest your eyes (20–20–20 rule), and take short movement breaks—designed for desk workers, developers, designers, and students.
 
-Đứng dậy và vận động nhẹ
+---
 
-Phù hợp cho dân văn phòng, lập trình viên, designer, học sinh – sinh viên.
+## ✨ Tính năng chính / Features
 
-🎯 Mục tiêu
+| Feature | Mô tả |
+|--------|--------|
+| 💧 **Nhắc uống nước** | Tính lượng nước/ngày theo cân nặng & giới tính, nhắc theo khoảng thời gian hoặc khung giờ làm việc, ghi nhận và biểu đồ theo ngày/tuần |
+| 👀 **Nhắc nghỉ mắt (20–20–20)** | Mỗi 20 phút nhắc nhìn xa 6m trong 20 giây, có countdown, chế độ nhẹ không làm gián đoạn |
+| 🚶 **Nhắc đứng dậy** | Nhắc vận động mỗi 30/45/60 phút, gợi ý duỗi lưng/xoay cổ/đi lại, có chế độ “đang họp” (tạm hoãn) |
+| 📊 **Thống kê & streak** | Số lần uống nước, nghỉ mắt, đứng dậy; streak theo ngày và đánh giá mức độ tuân thủ |
 
-Giảm mỏi mắt, đau cổ vai gáy
+### Cài đặt / Settings
 
-Tránh quên uống nước khi tập trung làm việc
+- **Thời gian làm việc**: Giờ bắt đầu/kết thúc, nghỉ trưa; chỉ nhắc trong giờ làm việc
+- **Nhắc nhở**: Bật/tắt từng loại, tần suất (15/20/30/45/60 phút), kiểu thông báo (banner/âm thanh/snooze)
+- **Nước**: Cân nặng, mục tiêu/ngày, đơn vị (ml/oz), ly mặc định (200ml/250ml/custom)
+- **Nghỉ mắt**: Bật/tắt 20–20–20, thời gian đếm ngược, chế độ nhẹ/tập trung
+- **Giao diện**: Light/Dark mode, Tiếng Việt/English, chế độ tối giản
 
-Tạo thói quen làm việc lành mạnh, bền vững
+### Quyền & quyền riêng tư
 
-✨ Chức năng chính
-💧 1. Nhắc uống nước
+- Chỉ yêu cầu quyền thông báo (Notification).
+- Không thu thập dữ liệu nhạy cảm; dữ liệu lưu local (tuỳ chọn iCloud/Google).
 
-Tính lượng nước/ngày dựa trên:
+---
 
-Cân nặng
+## 📋 Yêu cầu / Requirements
 
-Giới tính (optional)
+- **macOS** 14.0 (Sonoma) trở lên
+- **Xcode** 15+ (chỉ cần khi build từ source)
 
-Nhắc uống nước theo:
+---
 
-Khoảng thời gian (VD: mỗi 30 phút)
+## 🚀 Cài đặt / Installation
 
-Hoặc theo khung giờ làm việc
+### Cách 1: Tải bản phát hành (khuyến nghị)
 
-Ghi nhận lượng nước đã uống
+1. Vào [Releases](https://github.com/YOUR_USERNAME/healthy-work/releases).
+2. Tải file **HealthyWork-vX.X.X.dmg** (hoặc `.zip`) của phiên bản mới nhất.
+3. Mở DMG, kéo **HealthyWork.app** vào **Applications**.
+4. Chạy app; lần đầu có thể cần: **System Settings → Privacy & Security** → cho phép app.
 
-Biểu đồ theo ngày / tuần
+### Cách 2: Build từ source
 
-👀 2. Nhắc nghỉ mắt (20–20–20)
+```bash
+# Clone repo
+git clone https://github.com/YOUR_USERNAME/healthy-work.git
+cd healthy-work
 
-Mỗi 20 phút:
+# Build bằng script (khuyến nghị)
+./scripts/test-build.sh
 
-Nhắc nhìn xa 6m trong 20 giây
+# Hoặc build thủ công
+cd HealthyWork
+xcodebuild \
+  -project HealthyWork.xcodeproj \
+  -scheme HealthyWork \
+  -configuration Release \
+  -derivedDataPath ./build \
+  build
+```
 
-Có animation / countdown nhẹ
+App build xong nằm tại: `HealthyWork/build/Build/Products/Release/HealthyWork.app`.
 
-Không làm gián đoạn công việc (silent / banner mode)
+---
 
-🚶 3. Nhắc đứng dậy – vận động
+## 🛠️ Tech Stack
 
-Nhắc đứng dậy mỗi:
+| Thành phần | Công nghệ |
+|------------|-----------|
+| **Platform** | macOS (SwiftUI) |
+| **Language** | Swift |
+| **Storage** | Local (UserDefaults / file) |
+| **Notifications** | Local Notifications |
+| **CI/CD** | GitHub Actions (build, release, DMG) |
 
-30 / 45 / 60 phút
+---
 
-Gợi ý vận động nhẹ:
+## 📁 Cấu trúc project / Project Structure
 
-Duỗi lưng
+```
+healthy-work/
+├── HealthyWork/                    # Xcode project
+│   ├── HealthyWork.xcodeproj
+│   └── HealthyWork/               # Source code (SwiftUI)
+│       ├── Core/
+│       ├── Features/
+│       ├── Models/
+│       ├── Services/
+│       └── ...
+├── scripts/
+│   ├── test-build.sh              # Kiểm tra build nhanh
+│   ├── release.sh                 # Tạo release (tag, notes)
+│   └── create-dmg.sh              # Tạo file DMG
+├── .github/workflows/
+│   ├── build.yml                  # CI: build trên push/PR
+│   ├── release.yml                # Release: build + DMG khi push tag v*
+│   └── pr-check.yml               # PR checks
+├── README.md
+├── LICENSE
+└── CONTRIBUTING.md                # Hướng dẫn đóng góp (nếu có)
+```
 
-Xoay cổ
+---
 
-Đi lại 1–2 phút
+## 🤝 Đóng góp / Contributing
 
-Có chế độ “đang họp” (tạm hoãn)
+Mọi đóng góp đều được chào đón (báo lỗi, đề xuất tính năng, pull request). Nếu bạn muốn đóng góp code:
 
-📊 4. Thống kê & thói quen
+1. **Fork** repo và tạo branch từ `main` (ví dụ: `feature/your-feature` hoặc `fix/issue-123`).
+2. Đảm bảo build thành công: chạy `./scripts/test-build.sh`.
+3. Tạo **Pull Request** vào `main`, mô tả rõ thay đổi và (nếu có) link issue.
 
-Số lần:
+Nếu repo có file **CONTRIBUTING.md**, vui lòng đọc thêm hướng dẫn chi tiết ở đó.
 
-Uống nước
+---
 
-Nghỉ mắt
+## 📄 License
 
-Đứng dậy
+Dự án này sử dụng **MIT License**. Chi tiết xem file [LICENSE](LICENSE).
 
-Streak theo ngày
+---
 
-Đánh giá mức độ tuân thủ
+## 🗺️ Roadmap (gợi ý)
 
-⚙️ Settings (Cài đặt cần thiết)
-🕒 Thời gian làm việc
+- ⏱ Pomodoro mode
+- 🧍 Nhắc tư thế ngồi
+- ⌚ Apple Watch / Wear OS
+- 💤 Nhắc ngủ – nghỉ ngơi
 
-Giờ bắt đầu làm việc
+---
 
-Giờ kết thúc
+## 📜 Changelog
 
-Nghỉ trưa (optional)
+Các thay đổi đáng chú ý được ghi trong [Releases](https://github.com/YOUR_USERNAME/healthy-work/releases). Phiên bản tuân theo [Semantic Versioning](https://semver.org/) (tag: `v1.0.0`, `v1.1.0`, ...).
 
-Chỉ nhắc trong giờ làm việc
+---
 
-🔔 Nhắc nhở
-
-Bật / tắt từng loại nhắc:
-
-Uống nước
-
-Nghỉ mắt
-
-Đứng dậy
-
-Tần suất:
-
-15 / 20 / 30 / 45 / 60 phút
-
-Kiểu thông báo:
-
-Banner
-
-Âm thanh
-
-Rung
-
-Snooze: 5 / 10 / 15 phút
-
-💧 Cài đặt nước uống
-
-Cân nặng (kg)
-
-Mục tiêu nước/ngày (tự động hoặc thủ công)
-
-Đơn vị:
-
-ml / oz
-
-Ly mặc định:
-
-200ml / 250ml / custom
-
-👀 Cài đặt nghỉ mắt
-
-Bật / tắt quy tắc 20–20–20
-
-Thời gian đếm ngược
-
-Chế độ:
-
-Nhẹ (không âm thanh)
-
-Tập trung (full reminder)
-
-🚶 Vận động
-
-Thời gian đứng dậy
-
-Danh sách bài giãn cơ (bật/tắt)
-
-Random gợi ý hay cố định
-
-🎨 Giao diện
-
-Light / Dark mode
-
-Ngôn ngữ:
-
-Tiếng Việt
-
-English
-
-Minimal mode (ít thông báo)
-
-🔒 Quyền & quyền riêng tư
-
-Notification permission
-
-Không thu thập dữ liệu nhạy cảm
-
-Dữ liệu lưu local / iCloud / Google (optional)
-
-🛠️ Tech Stack (gợi ý)
-
-Mobile: SwiftUI (iOS) / Kotlin (Android) / Flutter / React Native
-
-Local storage: SQLite / CoreData
-
-Notification: Local Notification
-
-Analytics (optional): Firebase / PostHog
-
-🚀 Roadmap (gợi ý)
-
-⏱ Pomodoro mode
-
-🧍 Nhắc tư thế ngồi
-
-⌚ Apple Watch / Wear OS
-
-💤 Nhắc ngủ – nghỉ ngơi
-
-📄 License
-
-MIT License
+**WorkWell** – Giữ sức khỏe mỗi ngày khi làm việc với máy tính. 💧👀🚶
