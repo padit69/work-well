@@ -1,7 +1,7 @@
 # WorkWell – Healthy Work Reminder
 
-[![Build](https://github.com/YOUR_USERNAME/healthy-work/actions/workflows/build.yml/badge.svg)](https://github.com/YOUR_USERNAME/healthy-work/actions/workflows/build.yml)
-[![Release](https://github.com/YOUR_USERNAME/healthy-work/actions/workflows/release.yml/badge.svg)](https://github.com/YOUR_USERNAME/healthy-work/actions/workflows/release.yml)
+[![Build](https://github.com/padit69/healthy-work/actions/workflows/build.yml/badge.svg)](https://github.com/padit69/healthy-work/actions/workflows/build.yml)
+[![Release](https://github.com/padit69/healthy-work/actions/workflows/release.yml/badge.svg)](https://github.com/padit69/healthy-work/actions/workflows/release.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 **WorkWell** (HealthyWork) là ứng dụng macOS giúp bạn làm việc lành mạnh hơn bằng cách nhắc uống nước, nghỉ mắt (20–20–20) và đứng dậy vận động. Phù hợp cho dân văn phòng, lập trình viên, designer, học sinh – sinh viên.
@@ -45,7 +45,7 @@
 
 ### Cách 1: Tải bản phát hành (khuyến nghị)
 
-1. Vào [Releases](https://github.com/YOUR_USERNAME/healthy-work/releases).
+1. Vào [Releases](https://github.com/padit69/healthy-work/releases).
 2. Tải file **HealthyWork-vX.X.X.dmg** (hoặc `.zip`) của phiên bản mới nhất.
 3. Mở DMG, kéo **HealthyWork.app** vào **Applications**.
 4. Chạy app; lần đầu có thể cần: **System Settings → Privacy & Security** → cho phép app.
@@ -54,7 +54,7 @@
 
 ```bash
 # Clone repo
-git clone https://github.com/YOUR_USERNAME/healthy-work.git
+git clone https://github.com/padit69/healthy-work.git
 cd healthy-work
 
 # Build bằng script (khuyến nghị)
@@ -142,7 +142,7 @@ Dự án này sử dụng **MIT License**. Chi tiết xem file [LICENSE](LICENSE
 
 ## 📜 Changelog
 
-Các thay đổi đáng chú ý được ghi trong [Releases](https://github.com/YOUR_USERNAME/healthy-work/releases). Phiên bản tuân theo [Semantic Versioning](https://semver.org/) (tag: `v1.0.0`, `v1.1.0`, ...).
+Các thay đổi đáng chú ý được ghi trong [Releases](https://github.com/padit69/healthy-work/releases). Phiên bản tuân theo [Semantic Versioning](https://semver.org/) (tag: `v1.0.0`, `v1.1.0`, ...).
 
 ---
 
