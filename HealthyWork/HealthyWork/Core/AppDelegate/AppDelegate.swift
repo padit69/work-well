@@ -489,6 +489,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
             showUpdateAvailableWindow(release: release)
         }
     }
+    
 
     @MainActor
     private func showUpdateAvailableWindow(release: GitHubRelease) {
@@ -513,7 +514,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         window.contentView = hosting
         window.center()
         window.isReleasedWhenClosed = false
-        window.makeKeyAndOrderFront(nil)
         updateAvailableWindow = window
+        window.makeKeyAndOrderFront(nil)
     }
 }
