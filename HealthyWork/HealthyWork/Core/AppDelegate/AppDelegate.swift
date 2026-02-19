@@ -263,13 +263,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        let id = notification.request.content.categoryIdentifier
-        if id == ReminderSchedulingService.waterCategoryIdentifier {
-            reminderCoordinator?.show(.water)
-        } else if id == ReminderSchedulingService.eyeRestCategoryIdentifier {
-            reminderCoordinator?.show(.eyeRest)
-        } else if id == ReminderSchedulingService.movementCategoryIdentifier {
-            reminderCoordinator?.show(.movement)
+        let prefs = PreferencesService.load()
+        let showFullScreen = prefs.fullScreenReminderEnabled ?? true
+        if showFullScreen {
+            let id = notification.request.content.categoryIdentifier
+            if id == ReminderSchedulingService.waterCategoryIdentifier {
+                reminderCoordinator?.show(.water)
+            } else if id == ReminderSchedulingService.eyeRestCategoryIdentifier {
+                reminderCoordinator?.show(.eyeRest)
+            } else if id == ReminderSchedulingService.movementCategoryIdentifier {
+                reminderCoordinator?.show(.movement)
+            }
         }
         completionHandler([.banner, .sound])
     }
@@ -279,13 +283,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
-        let id = response.notification.request.content.categoryIdentifier
-        if id == ReminderSchedulingService.waterCategoryIdentifier {
-            reminderCoordinator?.show(.water)
-        } else if id == ReminderSchedulingService.eyeRestCategoryIdentifier {
-            reminderCoordinator?.show(.eyeRest)
-        } else if id == ReminderSchedulingService.movementCategoryIdentifier {
-            reminderCoordinator?.show(.movement)
+        let prefs = PreferencesService.load()
+        let showFullScreen = prefs.fullScreenReminderEnabled ?? true
+        if showFullScreen {
+            let id = response.notification.request.content.categoryIdentifier
+            if id == ReminderSchedulingService.waterCategoryIdentifier {
+                reminderCoordinator?.show(.water)
+            } else if id == ReminderSchedulingService.eyeRestCategoryIdentifier {
+                reminderCoordinator?.show(.eyeRest)
+            } else if id == ReminderSchedulingService.movementCategoryIdentifier {
+                reminderCoordinator?.show(.movement)
+            }
         }
         completionHandler()
     }

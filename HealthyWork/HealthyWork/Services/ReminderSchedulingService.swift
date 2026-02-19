@@ -20,6 +20,15 @@ enum ReminderSchedulingService {
         }
     }
 
+    /// Current notification authorization status (for UI to show/hide request button).
+    static func getAuthorizationStatus(completion: @escaping (UNAuthorizationStatus) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                completion(settings.authorizationStatus)
+            }
+        }
+    }
+
     /// Cancel all pending notifications and reschedule from preferences.
     static func rescheduleAll(preferences: UserPreferences) {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()

@@ -75,6 +75,8 @@ struct UserPreferences: Codable, Equatable {
     var notificationSound: Bool
     var notificationHaptic: Bool
     var snoozeMinutes: Int
+    /// When true, show full-screen reminder when a notification fires; when false, only system notification (nil = true for backward compat).
+    var fullScreenReminderEnabled: Bool?
 
     // MARK: - Water
     var weightKg: Double
@@ -193,6 +195,7 @@ struct UserPreferences: Codable, Equatable {
             notificationSound: true,
             notificationHaptic: false,
             snoozeMinutes: 5,
+            fullScreenReminderEnabled: true, // optional in struct for backward compat; default true
             weightKg: 60,
             gender: nil,
             waterGoalMlOverride: nil,

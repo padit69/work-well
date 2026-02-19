@@ -304,8 +304,27 @@ struct SettingsView: View {
             }
             Section {
                 LabeledContent {
-                    Toggle("", isOn: $viewModel.preferences.notificationBanner)
-                        .labelsHidden()
+                    Toggle("", isOn: Binding(
+                        get: { viewModel.preferences.fullScreenReminderEnabled ?? true },
+                        set: { viewModel.preferences.fullScreenReminderEnabled = $0 }
+                    ))
+                    .labelsHidden()
+                } label: {
+                    Label("Full-screen reminder", systemImage: "inset.filled.rectangle.and.person.filled")
+                        .font(.system(size: 13))
+                }
+                LabeledContent {
+                    HStack(spacing: 12) {
+                        Toggle("", isOn: $viewModel.preferences.notificationBanner)
+                            .labelsHidden()
+                        if !viewModel.notificationAuthorized {
+                            Button("Request permission") {
+                                viewModel.requestNotificationPermission()
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(.small)
+                        }
+                    }
                 } label: {
                     Label("Banner", systemImage: "bell.badge.fill")
                         .font(.system(size: 13))
@@ -332,20 +351,14 @@ struct SettingsView: View {
                     }
                     .labelsHidden()
                 } label: {
-                    Text("Snooze")
+                    Label("Snooze", systemImage: "timer.circle.fill")
                         .font(.system(size: 13))
                 }
-                Button(action: { viewModel.requestNotificationPermission() }) {
-                    Label("Request notification permission", systemImage: "bell.badge")
-                        .font(.system(size: 13))
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.small)
             } header: {
                 Text("Notifications")
                     .settingsSectionHeader()
             } footer: {
-                Text("Control how macOS notifications behave for reminders and request permission if needed.")
+                Text("Full-screen: show overlay when reminder fires. When off, only system notification. Request permission at Banner row when needed.")
                     .settingsSectionFooter()
             }
 
@@ -406,6 +419,9 @@ struct SettingsView: View {
                         .settingsSectionHeader()
                 }
             }
+        }
+        .onAppear {
+            viewModel.refreshNotificationStatus()
         }
     }
 
