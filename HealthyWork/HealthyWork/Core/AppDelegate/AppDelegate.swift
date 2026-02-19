@@ -8,6 +8,10 @@ import SwiftUI
 import SwiftData
 import UserNotifications
 
+extension Notification.Name {
+    static let checkForUpdatesRequested = Notification.Name("CheckForUpdatesRequested")
+}
+
 final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
     private var statusItem: NSStatusItem?
     private var statusMenu: NSMenu?
@@ -66,6 +70,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
             self,
             selector: #selector(handleShowReminderNotification(_:)),
             name: .showReminder,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleCheckForUpdatesRequested(_:)),
+            name: .checkForUpdatesRequested,
             object: nil
         )
 
@@ -319,6 +330,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
 
         let checkUpdateItem = NSMenuItem(title: "Check for Updates".localizedByKey, action: #selector(checkForUpdates), keyEquivalent: "")
         checkUpdateItem.target = self
+        if let checkUpdateImage = NSImage(systemSymbolName: "arrow.down.circle", accessibilityDescription: "Check for Updates") {
+            checkUpdateImage.isTemplate = true
+            checkUpdateItem.image = checkUpdateImage
+        }
         menu.addItem(checkUpdateItem)
         checkForUpdatesMenuItem = checkUpdateItem
 
@@ -471,6 +486,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
 
     @objc private func quit() {
         NSApp.terminate(nil)
+    }
+
+    @objc private func handleCheckForUpdatesRequested(_ notification: Notification) {
+        checkForUpdates()
     }
 
     @objc private func checkForUpdates() {

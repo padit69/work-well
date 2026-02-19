@@ -603,6 +603,13 @@ private struct DashboardMetricCard: View {
                 LabeledContent("App") { Text(AppConstants.App.name) }
                 LabeledContent("Version") { Text(appVersionString).foregroundStyle(.secondary) }
                 LabeledContent("Build") { Text(appBuildString).foregroundStyle(.secondary) }
+                Button {
+                    NotificationCenter.default.post(name: .checkForUpdatesRequested, object: nil)
+                } label: {
+                    Label("Check for Updates".localizedByKey, systemImage: "arrow.down.circle")
+                        .font(.system(size: 13))
+                }
+                .buttonStyle(.plain)
             } header: {
                 Text("About")
                     .settingsSectionHeader()
