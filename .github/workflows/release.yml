@@ -61,6 +61,7 @@ jobs:
               -derivedDataPath ./build \
               CODE_SIGN_IDENTITY="$IDENTITY" \
               CODE_SIGN_STYLE=Manual \
+              OTHER_CODE_SIGN_FLAGS="--timestamp" \
               clean build
           else
             xcodebuild \
