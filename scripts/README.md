@@ -1,6 +1,6 @@
 # Scripts Directory
 
-This directory contains helper scripts for building and releasing the HealthyWork app.
+This directory contains helper scripts for building and releasing the WorkWell app.
 
 ## Available Scripts
 
@@ -84,7 +84,7 @@ Or specify version directly:
 - App must be built first (run `test-build.sh`)
 
 **Output:**
-- File: `dist/HealthyWork-vX.X.X.dmg`
+- File: `dist/WorkWell-vX.X.X.dmg`
 
 ---
 
@@ -126,7 +126,7 @@ Or specify version directly:
 ./scripts/create-dmg.sh 1.0.0
 
 # 3. Distribute
-# Share the dist/HealthyWork-v1.0.0.dmg file
+# Share the dist/WorkWell-v1.0.0.dmg file
 ```
 
 ---
@@ -190,9 +190,9 @@ set -e  # Exit on error
 echo "Hello from custom script"
 
 # Example: Build and open app
-cd HealthyWork
-xcodebuild -project HealthyWork.xcodeproj -scheme HealthyWork build
-open build/Build/Products/Debug/HealthyWork.app
+cd WorkWell
+xcodebuild -project WorkWell.xcodeproj -scheme WorkWell build
+open build/Build/Products/Debug/WorkWell.app
 ```
 
 Make it executable:

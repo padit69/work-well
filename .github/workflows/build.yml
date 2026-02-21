@@ -22,10 +22,10 @@ jobs:
       
       - name: Build app
         run: |
-          cd HealthyWork
+          cd WorkWell
           xcodebuild \
-            -project HealthyWork.xcodeproj \
-            -scheme HealthyWork \
+            -project WorkWell.xcodeproj \
+            -scheme WorkWell \
             -configuration Release \
             -derivedDataPath ./build \
             CODE_SIGN_IDENTITY="" \
@@ -36,11 +36,11 @@ jobs:
       - name: Check build output
         run: |
           echo "✅ Build completed successfully!"
-          ls -la HealthyWork/build/Build/Products/Release/
+          ls -la WorkWell/build/Build/Products/Release/
       
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: HealthyWork-Build-${{ github.sha }}
-          path: HealthyWork/build/Build/Products/Release/HealthyWork.app
+          name: WorkWell-Build-${{ github.sha }}
+          path: WorkWell/build/Build/Products/Release/WorkWell.app
           retention-days: 7

@@ -1,6 +1,6 @@
 ---
 description: SwiftUI screen structure - ViewModel + View + Components folder per screen
-globs: HealthyWork/Features/**/*.swift
+globs: WorkWell/Features/**/*.swift
 alwaysApply: false
 ---
 
@@ -29,7 +29,7 @@ Features/
 
 2. **Components folder**
    - Tạo folder `Components/` **bên trong** folder của screen đó khi screen có component chỉ dùng cho screen đó.
-   - Component dùng chung nhiều screen → đặt ở `HealthyWork/Components/` (root).
+   - Component dùng chung nhiều screen → đặt ở `WorkWell/Components/` (root).
 
 3. **Đặt tên file**
    - View: `<FeatureName>View.swift` (ví dụ: `MainView.swift`, `SettingsView.swift`).

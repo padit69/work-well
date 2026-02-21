@@ -1,0 +1,27 @@
+//
+//  AppConstants.swift
+//  WorkWell
+//
+//  Created by Dũng Phùng on 18/2/26.
+//
+
+import Foundation
+
+enum AppConstants {
+
+    enum App {
+        static let name = "WorkWell"
+        static let bundleIdentifier = "com.hihiteam.care.WorkWell"
+    }
+
+    enum Layout {
+        static let navigationSplitMinWidth: CGFloat = 180
+        static let navigationSplitIdealWidth: CGFloat = 200
+    }
+
+    /// GitHub repo for update checks (owner/repo). Releases use tags v*.*.* and assets WorkWell-{tag}.dmg
+    enum Updates {
+        static let githubRepo = "padit69/work-well"
+        static let latestReleaseURL = "https://api.github.com/repos/\(githubRepo)/releases/latest"
+    }
+}

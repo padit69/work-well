@@ -1,6 +1,6 @@
 ---
 description: Convention cho Core (Extensions, Constants, Utilities)
-globs: HealthyWork/Core/**/*.swift
+globs: WorkWell/Core/**/*.swift
 alwaysApply: false
 ---
 

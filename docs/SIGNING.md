@@ -1,6 +1,6 @@
 # Code signing & notarization (macOS)
 
-Để user có thể mở HealthyWork mà không gặp lỗi **"HealthyWork is damaged and can't be opened"**, bạn cần **ký (code sign)** và **notarize** app bằng Apple Developer ID. Hướng dẫn dưới đây dùng cho GitHub Actions.
+Để user có thể mở WorkWell mà không gặp lỗi **"WorkWell is damaged and can't be opened"**, bạn cần **ký (code sign)** và **notarize** app bằng Apple Developer ID. Hướng dẫn dưới đây dùng cho GitHub Actions.
 
 ## Yêu cầu
 
@@ -91,14 +91,14 @@ User tải bản release này sẽ mở app bình thường, không còn lỗi "
 Nếu **không** set `ENABLE_CODE_SIGNING` (hoặc để `false`):
 
 - Workflow vẫn chạy, build **unsigned** như trước.
-- User mở app lần đầu: **Right-click** (hoặc Control-click) **HealthyWork.app** → **Open** → **Open** trong hộp thoại.
+- User mở app lần đầu: **Right-click** (hoặc Control-click) **WorkWell.app** → **Open** → **Open** trong hộp thoại.
 
 ## Xử lý lỗi notarization
 
 - Nếu bước **Notarize app** báo **Invalid**:
   - Trong log workflow có **submission ID**.
   - Trên Mac: `xcrun notarytool log <submission-id> --apple-id ... --password ... --team-id ...` để xem log chi tiết.
-- Thường gặp: thiếu **Hardened Runtime** hoặc **entitlements** không đúng. Project HealthyWork đã bật `ENABLE_HARDENED_RUNTIME = YES`; nếu vẫn lỗi, kiểm tra entitlements và dependencies được ký đúng.
+- Thường gặp: thiếu **Hardened Runtime** hoặc **entitlements** không đúng. Project WorkWell đã bật `ENABLE_HARDENED_RUNTIME = YES`; nếu vẫn lỗi, kiểm tra entitlements và dependencies được ký đúng.
 
 ## Tham khảo
 

@@ -17,7 +17,7 @@ echo "📦 Creating DMG Installer for Health Reminder..."
 echo ""
 
 # Check if app exists
-APP_PATH="HealthyWork/build/Build/Products/Release/HealthyWork.app"
+APP_PATH="WorkWell/build/Build/Products/Release/WorkWell.app"
 
 if [ ! -d "$APP_PATH" ]; then
     echo -e "${RED}❌ App not found at: $APP_PATH${NC}"
@@ -29,7 +29,7 @@ fi
 # Get version from arguments or use default
 VERSION=${1:-"1.0.0"}
 OUTPUT_DIR="dist"
-DMG_NAME="HealthyWork-v${VERSION}.dmg"
+DMG_NAME="WorkWell-v${VERSION}.dmg"
 
 # Create output directory
 mkdir -p "$OUTPUT_DIR"

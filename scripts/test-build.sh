@@ -15,14 +15,14 @@ echo ""
 echo "🔨 Testing Health Reminder Build..."
 echo ""
 
-# Navigate to HealthyWork directory
-cd "$(dirname "$0")/../HealthyWork"
+# Navigate to WorkWell directory
+cd "$(dirname "$0")/../WorkWell"
 
 # Clean and build
 echo -e "${BLUE}ℹ️  Cleaning previous builds...${NC}"
 xcodebuild \
-  -project HealthyWork.xcodeproj \
-  -scheme HealthyWork \
+  -project WorkWell.xcodeproj \
+  -scheme WorkWell \
   -configuration Release \
   -derivedDataPath ./build \
   clean
@@ -30,21 +30,21 @@ xcodebuild \
 echo ""
 echo -e "${BLUE}ℹ️  Building app...${NC}"
 xcodebuild \
-  -project HealthyWork.xcodeproj \
-  -scheme HealthyWork \
+  -project WorkWell.xcodeproj \
+  -scheme WorkWell \
   -configuration Release \
   -derivedDataPath ./build \
   build
 
 # Check if build succeeded
-if [ -d "build/Build/Products/Release/HealthyWork.app" ]; then
+if [ -d "build/Build/Products/Release/WorkWell.app" ]; then
     echo ""
     echo -e "${GREEN}✅ Build successful!${NC}"
     echo ""
     echo "Build output:"
-    ls -lh build/Build/Products/Release/HealthyWork.app
+    ls -lh build/Build/Products/Release/WorkWell.app
     echo ""
-    echo "App size: $(du -sh build/Build/Products/Release/HealthyWork.app | cut -f1)"
+    echo "App size: $(du -sh build/Build/Products/Release/WorkWell.app | cut -f1)"
     echo ""
 else
     echo ""

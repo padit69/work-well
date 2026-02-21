@@ -1,11 +1,11 @@
 ---
-description: Tổng quan cấu trúc thư mục HealthyWork (SwiftUI macOS)
+description: Tổng quan cấu trúc thư mục WorkWell (SwiftUI macOS)
 alwaysApply: true
 ---
 
-# Cấu trúc project HealthyWork (SwiftUI macOS)
+# Cấu trúc project WorkWell (SwiftUI macOS)
 
-## Thư mục gốc `HealthyWork/`
+## Thư mục gốc `WorkWell/`
 
 | Thư mục / File | Mục đích |
 |----------------|----------|
@@ -22,4 +22,4 @@ alwaysApply: true
 
 - **Một nơi cho mỗi thứ**: đúng folder, không tạo file lẫn lộn (vd. không đặt model trong Features).
 - **Feature mới** → folder mới trong `Features/<FeatureName>/` với View + ViewModel (+ Components nếu cần).
-- Project dùng **File System Synchronized Root Group**: thêm file/folder trong `HealthyWork/` là Xcode tự nhận, không cần add thủ công.
+- Project dùng **File System Synchronized Root Group**: thêm file/folder trong `WorkWell/` là Xcode tự nhận, không cần add thủ công.

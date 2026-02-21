@@ -86,11 +86,11 @@ check_branch_sync() {
 # Function to test build locally
 test_build() {
     print_info "Testing build locally..."
-    cd HealthyWork
+    cd WorkWell
     
     if xcodebuild \
-        -project HealthyWork.xcodeproj \
-        -scheme HealthyWork \
+        -project WorkWell.xcodeproj \
+        -scheme WorkWell \
         -configuration Release \
         -derivedDataPath ./build \
         clean build > /dev/null 2>&1; then
@@ -122,7 +122,7 @@ update_version_json() {
     fi
     
     # Extract user/repo from URL
-    local download_url="${repo_url}/releases/download/${version}/HealthyWork.dmg"
+    local download_url="${repo_url}/releases/download/${version}/WorkWell.dmg"
     
     # Check if jq is installed
     if ! command -v jq &> /dev/null; then
@@ -188,7 +188,7 @@ main() {
     echo ""
     
     # Check if we're in the right directory
-    if [ ! -d "HealthyWork/HealthyWork.xcodeproj" ]; then
+    if [ ! -d "WorkWell/WorkWell.xcodeproj" ]; then
         print_error "This script must be run from the project root directory"
         exit 1
     fi

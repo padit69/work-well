@@ -1,18 +1,18 @@
 ---
 description: Convention cho Models và Services
-globs: HealthyWork/Models/**/*.swift, HealthyWork/Services/**/*.swift
+globs: WorkWell/Models/**/*.swift, WorkWell/Services/**/*.swift
 alwaysApply: false
 ---
 
 # Models & Services
 
-## Models (`HealthyWork/Models/`)
+## Models (`WorkWell/Models/`)
 
 - **SwiftData**: class với `@Model`, đặt trong `Models/`. Ví dụ: `Item.swift`, `WorkSession.swift`.
 - **DTO / Codable**: struct dùng cho API hoặc serialization. Đặt tên rõ ràng: `UserDTO`, `SessionResponse`.
 - Một model một file. Model liên quan có thể cùng file nếu rất nhỏ (vd. enum + struct đi kèm).
 
-## Services (`HealthyWork/Services/`)
+## Services (`WorkWell/Services/`)
 
 - Chứa **business logic**, gọi API, đọc/ghi persistence. ViewModel gọi Service, không gọi trực tiếp API/DB phức tạp trong ViewModel.
 - Đặt tên: `<Domain>Service.swift` (vd. `DataService`, `AuthService`, `HealthKitService`).

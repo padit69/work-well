@@ -51,23 +51,23 @@ jobs:
       
       - name: Build app
         run: |
-          cd HealthyWork
+          cd WorkWell
           IDENTITY="${{ steps.signing.outputs.identity }}"
           if [ -n "$IDENTITY" ]; then
             xcodebuild \
-              -project HealthyWork.xcodeproj \
-              -scheme HealthyWork \
+              -project WorkWell.xcodeproj \
+              -scheme WorkWell \
               -configuration Release \
               -derivedDataPath ./build \
-              CODE_SIGN_ENTITLEMENTS=HealthyWork/HealthyWork.entitlements \
+              CODE_SIGN_ENTITLEMENTS=WorkWell/WorkWell.entitlements \
               CODE_SIGN_IDENTITY="$IDENTITY" \
               CODE_SIGN_STYLE=Manual \
               OTHER_CODE_SIGN_FLAGS="--timestamp" \
               clean build
           else
             xcodebuild \
-              -project HealthyWork.xcodeproj \
-              -scheme HealthyWork \
+              -project WorkWell.xcodeproj \
+              -scheme WorkWell \
               -configuration Release \
               -derivedDataPath ./build \
               CODE_SIGN_IDENTITY="" \
@@ -79,8 +79,8 @@ jobs:
       - name: Verify build
         run: |
           echo "Checking build output..."
-          ls -la HealthyWork/build/Build/Products/Release/
-          if [ -d "HealthyWork/build/Build/Products/Release/HealthyWork.app" ]; then
+          ls -la WorkWell/build/Build/Products/Release/
+          if [ -d "WorkWell/build/Build/Products/Release/WorkWell.app" ]; then
             echo "✅ App bundle created successfully"
           else
             echo "❌ App bundle not found"
@@ -94,84 +94,84 @@ jobs:
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: |
-          cd HealthyWork/build/Build/Products/Release
+          cd WorkWell/build/Build/Products/Release
           echo "Creating zip for notary submission..."
-          ditto -c -k --keepParent HealthyWork.app HealthyWork-notarize.zip
+          ditto -c -k --keepParent WorkWell.app WorkWell-notarize.zip
           echo "Submitting to Apple Notary..."
-          xcrun notarytool submit HealthyWork-notarize.zip \
+          xcrun notarytool submit WorkWell-notarize.zip \
             --apple-id "$APPLE_ID" \
             --password "$APPLE_APP_SPECIFIC_PASSWORD" \
             --team-id "$APPLE_TEAM_ID" \
             --wait
           echo "Stapling notarization ticket to app..."
-          xcrun stapler staple "HealthyWork.app"
+          xcrun stapler staple "WorkWell.app"
           echo "✅ Notarization complete"
       
       - name: Package app as ZIP
         run: |
-          cd HealthyWork/build/Build/Products/Release
+          cd WorkWell/build/Build/Products/Release
           
           # Create a clean directory for the app
-          mkdir -p HealthyWork-${{ steps.get_version.outputs.VERSION }}
-          cp -R HealthyWork.app HealthyWork-${{ steps.get_version.outputs.VERSION }}/
+          mkdir -p WorkWell-${{ steps.get_version.outputs.VERSION }}
+          cp -R WorkWell.app WorkWell-${{ steps.get_version.outputs.VERSION }}/
           
           # Create ZIP archive
-          zip -r -y HealthyWork-${{ steps.get_version.outputs.VERSION }}.zip HealthyWork-${{ steps.get_version.outputs.VERSION }}
+          zip -r -y WorkWell-${{ steps.get_version.outputs.VERSION }}.zip WorkWell-${{ steps.get_version.outputs.VERSION }}
           
-          # Move to artifacts directory (repo root: Release -> Products -> Build -> build -> HealthyWork -> root)
+          # Move to artifacts directory (repo root: Release -> Products -> Build -> build -> WorkWell -> root)
           mkdir -p ../../../../../artifacts
-          mv HealthyWork-${{ steps.get_version.outputs.VERSION }}.zip ../../../../../artifacts/
+          mv WorkWell-${{ steps.get_version.outputs.VERSION }}.zip ../../../../../artifacts/
           
           echo "✅ ZIP package created"
       
       - name: Create DMG installer
         run: |
-          cd HealthyWork/build/Build/Products/Release
+          cd WorkWell/build/Build/Products/Release
           
           # Create temporary directory for DMG contents
           mkdir -p dmg_contents
-          cp -R HealthyWork.app dmg_contents/
+          cp -R WorkWell.app dmg_contents/
           
           # Create Applications symlink for easy installation
           ln -s /Applications dmg_contents/Applications
           
           # Create DMG using hdiutil
-          hdiutil create -volname "HealthyWork ${{ steps.get_version.outputs.VERSION }}" \
+          hdiutil create -volname "WorkWell ${{ steps.get_version.outputs.VERSION }}" \
             -srcfolder dmg_contents \
             -ov -format UDZO \
-            HealthyWork-${{ steps.get_version.outputs.VERSION }}.dmg
+            WorkWell-${{ steps.get_version.outputs.VERSION }}.dmg
           
-          mv HealthyWork-${{ steps.get_version.outputs.VERSION }}.dmg ../../../../../artifacts/
+          mv WorkWell-${{ steps.get_version.outputs.VERSION }}.dmg ../../../../../artifacts/
           
           echo "✅ DMG installer created"
       
       - name: Generate checksums
         run: |
           cd artifacts
-          shasum -a 256 HealthyWork-${{ steps.get_version.outputs.VERSION }}.zip > checksums.txt
-          shasum -a 256 HealthyWork-${{ steps.get_version.outputs.VERSION }}.dmg >> checksums.txt
+          shasum -a 256 WorkWell-${{ steps.get_version.outputs.VERSION }}.zip > checksums.txt
+          shasum -a 256 WorkWell-${{ steps.get_version.outputs.VERSION }}.dmg >> checksums.txt
           cat checksums.txt
       
       - name: Generate release notes
         id: release_notes
         run: |
           cat > release_notes.md << RELEASE_NOTES_EOF
-          ## WorkWell (HealthyWork) ${{ steps.get_version.outputs.VERSION }}
+          ## WorkWell (WorkWell) ${{ steps.get_version.outputs.VERSION }}
           
           **WorkWell** is a macOS app that helps you work healthier: reminders to **drink water**, **rest your eyes** (20–20–20 rule), and **stand up & move**. Built for desk workers, developers, designers, and students.
           
           ### 📦 Installation
           
           **Option 1: DMG Installer (Recommended)**
-          1. Download \`HealthyWork-${{ steps.get_version.outputs.VERSION }}.dmg\`
+          1. Download \`WorkWell-${{ steps.get_version.outputs.VERSION }}.dmg\`
           2. Open the DMG file
-          3. Drag **HealthyWork** into **Applications**
+          3. Drag **WorkWell** into **Applications**
           4. Launch from Applications
           
           **Option 2: ZIP Archive**
-          1. Download \`HealthyWork-${{ steps.get_version.outputs.VERSION }}.zip\`
+          1. Download \`WorkWell-${{ steps.get_version.outputs.VERSION }}.zip\`
           2. Extract the archive
-          3. Move **HealthyWork.app** to **Applications**
+          3. Move **WorkWell.app** to **Applications**
           4. Launch from Applications
           
           ### ⚙️ System Requirements
@@ -182,7 +182,7 @@ jobs:
           ### 🔐 Security Note
           
           **Signed & notarized builds** (when enabled for the repo): open the app normally.  
-          **Unsigned builds**: on first launch, right-click (or Control-click) **HealthyWork.app** → **Open** → **Open** in the dialog.
+          **Unsigned builds**: on first launch, right-click (or Control-click) **WorkWell.app** → **Open** → **Open** in the dialog.
           
           ### ✨ Features
           
@@ -211,13 +211,13 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          name: HealthyWork ${{ steps.get_version.outputs.VERSION }}
+          name: WorkWell ${{ steps.get_version.outputs.VERSION }}
           body_path: release_notes.md
           draft: false
           prerelease: ${{ contains(steps.get_version.outputs.VERSION, 'alpha') || contains(steps.get_version.outputs.VERSION, 'beta') || contains(steps.get_version.outputs.VERSION, 'rc') }}
           files: |
-            artifacts/HealthyWork-${{ steps.get_version.outputs.VERSION }}.zip
-            artifacts/HealthyWork-${{ steps.get_version.outputs.VERSION }}.dmg
+            artifacts/WorkWell-${{ steps.get_version.outputs.VERSION }}.zip
+            artifacts/WorkWell-${{ steps.get_version.outputs.VERSION }}.dmg
             artifacts/checksums.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

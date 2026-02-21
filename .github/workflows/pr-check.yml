@@ -24,10 +24,10 @@ jobs:
       - name: Build check
         id: build
         run: |
-          cd HealthyWork
+          cd WorkWell
           xcodebuild \
-            -project HealthyWork.xcodeproj \
-            -scheme HealthyWork \
+            -project WorkWell.xcodeproj \
+            -scheme WorkWell \
             -configuration Debug \
             -derivedDataPath ./build \
             CODE_SIGN_IDENTITY="" \
@@ -37,7 +37,7 @@ jobs:
       
       - name: Verify build output
         run: |
-          if [ -d "HealthyWork/build/Build/Products/Debug/HealthyWork.app" ]; then
+          if [ -d "WorkWell/build/Build/Products/Debug/WorkWell.app" ]; then
             echo "✅ Build successful"
             echo "BUILD_STATUS=success" >> $GITHUB_ENV
           else

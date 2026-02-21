@@ -1,10 +1,10 @@
 # WorkWell – Healthy Work Reminder
 
-[![Build](https://github.com/padit69/healthy-work/actions/workflows/build.yml/badge.svg)](https://github.com/padit69/healthy-work/actions/workflows/build.yml)
-[![Release](https://github.com/padit69/healthy-work/actions/workflows/release.yml/badge.svg)](https://github.com/padit69/healthy-work/actions/workflows/release.yml)
+[![Build](https://github.com/padit69/work-well/actions/workflows/build.yml/badge.svg)](https://github.com/padit69/work-well/actions/workflows/build.yml)
+[![Release](https://github.com/padit69/work-well/actions/workflows/release.yml/badge.svg)](https://github.com/padit69/work-well/actions/workflows/release.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**WorkWell** (HealthyWork) là ứng dụng macOS giúp bạn làm việc lành mạnh hơn bằng cách nhắc uống nước, nghỉ mắt (20–20–20) và đứng dậy vận động. Phù hợp cho dân văn phòng, lập trình viên, designer, học sinh – sinh viên.
+**WorkWell** (WorkWell) là ứng dụng macOS giúp bạn làm việc lành mạnh hơn bằng cách nhắc uống nước, nghỉ mắt (20–20–20) và đứng dậy vận động. Phù hợp cho dân văn phòng, lập trình viên, designer, học sinh – sinh viên.
 
 **WorkWell** is a macOS app that reminds you to stay hydrated, rest your eyes (20–20–20 rule), and take short movement breaks—designed for desk workers, developers, designers, and students...
 
@@ -45,32 +45,32 @@
 
 ### Cách 1: Tải bản phát hành (khuyến nghị)
 
-1. Vào [Releases](https://github.com/padit69/healthy-work/releases).
-2. Tải file **HealthyWork-vX.X.X.dmg** (hoặc `.zip`) của phiên bản mới nhất.
-3. Mở DMG, kéo **HealthyWork.app** vào **Applications**.
+1. Vào [Releases](https://github.com/padit69/work-well/releases).
+2. Tải file **WorkWell-vX.X.X.dmg** (hoặc `.zip`) của phiên bản mới nhất.
+3. Mở DMG, kéo **WorkWell.app** vào **Applications**.
 4. Chạy app; lần đầu có thể cần: **System Settings → Privacy & Security** → cho phép app.
 
 ### Cách 2: Build từ source
 
 ```bash
 # Clone repo
-git clone https://github.com/padit69/healthy-work.git
-cd healthy-work
+git clone https://github.com/padit69/work-well.git
+cd work-well
 
 # Build bằng script (khuyến nghị)
 ./scripts/test-build.sh
 
 # Hoặc build thủ công
-cd HealthyWork
+cd WorkWell
 xcodebuild \
-  -project HealthyWork.xcodeproj \
-  -scheme HealthyWork \
+  -project WorkWell.xcodeproj \
+  -scheme WorkWell \
   -configuration Release \
   -derivedDataPath ./build \
   build
 ```
 
-App build xong nằm tại: `HealthyWork/build/Build/Products/Release/HealthyWork.app`.
+App build xong nằm tại: `WorkWell/build/Build/Products/Release/WorkWell.app`.
 
 ---
 
@@ -89,10 +89,10 @@ App build xong nằm tại: `HealthyWork/build/Build/Products/Release/HealthyWor
 ## 📁 Cấu trúc project / Project Structure
 
 ```
-healthy-work/
-├── HealthyWork/                    # Xcode project
-│   ├── HealthyWork.xcodeproj
-│   └── HealthyWork/               # Source code (SwiftUI)
+work-well/
+├── WorkWell/                    # Xcode project
+│   ├── WorkWell.xcodeproj
+│   └── WorkWell/               # Source code (SwiftUI)
 │       ├── Core/
 │       ├── Features/
 │       ├── Models/
@@ -148,7 +148,7 @@ Dự án này sử dụng **MIT License**. Chi tiết xem file [LICENSE](LICENSE
 
 ## 📜 Changelog
 
-Các thay đổi đáng chú ý được ghi trong [Releases](https://github.com/padit69/healthy-work/releases). Phiên bản tuân theo [Semantic Versioning](https://semver.org/) (tag: `v1.0.0`, `v1.1.0`, ...).
+Các thay đổi đáng chú ý được ghi trong [Releases](https://github.com/padit69/work-well/releases). Phiên bản tuân theo [Semantic Versioning](https://semver.org/) (tag: `v1.0.0`, `v1.1.0`, ...).
 
 ---
 
