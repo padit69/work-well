@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build macOS App
-    runs-on: macos-latest
+    runs-on: macos-26  # macOS 26 (Tahoe), Xcode 26.2, arm64 only
     
     steps:
       - name: Checkout code
