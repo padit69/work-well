@@ -1412,6 +1412,40 @@
         }
       }
     },
+    "str_button_remind" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remind"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nhắc lại"
+          }
+        }
+      }
+    },
+    "str_shortcut_hint_water" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter: I drank. Space: Remind in 1 min. Esc to close."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter: Đã uống. Space: Nhắc lại sau 1 phút. Esc để đóng."
+          }
+        }
+      }
+    },
     "str_press_esc" : {
       "extractionState" : "manual",
       "localizations" : {

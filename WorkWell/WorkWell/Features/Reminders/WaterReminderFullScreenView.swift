@@ -30,7 +30,7 @@ struct WaterReminderFullScreenView: View {
             countdown: focusEnabled && isFocusCounting ? focusCountdownRemaining : nil,
             progress: focusEnabled && focusCountdownTotal > 0 ? Double(focusCountdownRemaining) / Double(focusCountdownTotal) : 0,
             primaryButton: ("str_button_i_drank".localizedByKey, handleDrank),
-            secondaryButton: ("str_button_skip".localizedByKey, handleSkip),
+            secondaryButton: ("str_button_remind".localizedByKey, handleRemind),
             primaryButtonDisabled: focusEnabled && isFocusCounting,
             secondaryButtonDisabled: focusEnabled && isFocusCounting,
             focusModeEnabled: focusEnabled
@@ -53,7 +53,7 @@ struct WaterReminderFullScreenView: View {
             return .handled
         }
         .onKeyPress(.space) {
-            if !(focusEnabled && isFocusCounting) { handleSkip() }
+            if !(focusEnabled && isFocusCounting) { handleRemind() }
             return .handled
         }
     }
@@ -84,11 +84,12 @@ struct WaterReminderFullScreenView: View {
         onDismiss()
     }
 
-    private func handleSkip() {
+    /// Dismiss now and show this reminder again in 1 minute.
+    private func handleRemind() {
         ReminderSchedulingService.scheduleSnooze(
-            identifier: "water-snooze-\(UUID().uuidString)",
+            identifier: "water-remind-\(UUID().uuidString)",
             type: .water,
-            in: preferences.snoozeMinutes
+            in: 1
         )
         onDismiss()
     }

@@ -329,7 +329,13 @@ private struct ModernReminderStyleView: View {
     @ViewBuilder
     private var shortcutHint: some View {
         switch type {
-        case .water, .movement:
+        case .water:
+            Text("str_shortcut_hint_water")
+                .font(.system(size: 11, weight: .medium))
+                .foregroundColor(.white.opacity(0.7))
+                .multilineTextAlignment(.center)
+                .padding(.top, 6)
+        case .movement:
             Text("str_shortcut_hint")
                 .font(.system(size: 11, weight: .medium))
                 .foregroundColor(.white.opacity(0.7))
@@ -460,7 +466,13 @@ private struct MinimalReminderStyleView: View {
     @ViewBuilder
     private var shortcutHint: some View {
         switch type {
-        case .water, .movement:
+        case .water:
+            Text("str_shortcut_hint_water")
+                .font(.system(size: 11))
+                .foregroundColor(Color(red: 0.45, green: 0.45, blue: 0.45))
+                .multilineTextAlignment(.center)
+                .padding(.top, 4)
+        case .movement:
             Text("str_shortcut_hint")
                 .font(.system(size: 11))
                 .foregroundColor(Color(red: 0.45, green: 0.45, blue: 0.45))
@@ -659,7 +671,13 @@ private struct BoldReminderStyleView: View {
     @ViewBuilder
     private var shortcutHint: some View {
         switch type {
-        case .water, .movement:
+        case .water:
+            Text("str_shortcut_hint_water")
+                .font(.system(size: 11, weight: .medium))
+                .foregroundColor(.white.opacity(0.86))
+                .multilineTextAlignment(.center)
+                .padding(.top, 4)
+        case .movement:
             Text("str_shortcut_hint")
                 .font(.system(size: 11, weight: .medium))
                 .foregroundColor(.white.opacity(0.86))

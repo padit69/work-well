@@ -208,11 +208,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
                 }
                 return true
             } else if keyCode == spaceKeyCode {
-                // Space: in meeting (snooze)
+                // Space: remind again in 1 minute (dismiss now, show again in 1 min)
                 ReminderSchedulingService.scheduleSnooze(
-                    identifier: "water-snooze-\(UUID().uuidString)",
+                    identifier: "water-remind-\(UUID().uuidString)",
                     type: .water,
-                    in: preferences.snoozeMinutes
+                    in: 1
                 )
                 DispatchQueue.main.async {
                     coordinator.dismiss()
