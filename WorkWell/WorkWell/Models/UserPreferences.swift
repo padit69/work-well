@@ -106,11 +106,16 @@ struct UserPreferences: Codable, Equatable {
     var movementRandomSuggestion: Bool
 
     // MARK: - UI
+    /// App-wide appearance / behavior.
     var appearance: Appearance
     var language: Language
     var minimalMode: Bool
     /// Full-screen reminder visual style (Modern / Minimal / Bold).
     var reminderDisplayStyle: ReminderDisplayStyle
+
+    // MARK: - Updates
+    /// When true, app automatically checks GitHub Releases for a newer version on launch and shows an in-app update window when available.
+    var autoCheckForUpdates: Bool
 
     // MARK: - Reminder appearance (per type)
     /// Background style for full-screen reminder: clear, blur, or solid (nil = .blur for backward compat).
@@ -226,6 +231,7 @@ struct UserPreferences: Codable, Equatable {
             language: .en,
             minimalMode: false,
             reminderDisplayStyle: .modern,
+            autoCheckForUpdates: true,
             reminderWaterBackgroundStyle: .blur,
             reminderEyeRestBackgroundStyle: .blur,
             reminderMovementBackgroundStyle: .blur,

@@ -66,6 +66,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
             ReminderSchedulingService.rescheduleAll(preferences: preferences)
         }
 
+        // Optional: check for updates on launch and show in-app window when a newer version is available.
+        if preferences.autoCheckForUpdates {
+            Task { @MainActor in
+                if let release = await UpdateCheckService.checkForUpdate() {
+                    self.showUpdateAvailableWindow(release: release)
+                }
+            }
+        }
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleShowReminderNotification(_:)),

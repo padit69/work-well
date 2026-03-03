@@ -11,6 +11,9 @@ struct UpdateAvailableView: View {
     let release: GitHubRelease
     let onDismiss: () -> Void
 
+    @State private var isDownloading: Bool = false
+    @State private var downloadError: String?
+
     private var releaseNotes: String {
         release.body ?? "Bug fixes and improvements."
     }
@@ -39,23 +42,55 @@ struct UpdateAvailableView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
 
+            if let error = downloadError {
+                Text(error)
+                    .font(.system(size: 11))
+                    .foregroundStyle(.red)
+            }
+
             HStack(spacing: 10) {
                 Button("Later".localizedByKey) {
                     onDismiss()
                 }
                 .keyboardShortcut(.escape, modifiers: [])
 
-                Button("Download on GitHub".localizedByKey) {
+                Button(isDownloading ? "Downloading…".localizedByKey : "Download & Install".localizedByKey) {
+                    startDownloadAndInstall()
+                }
+                .keyboardShortcut(.defaultAction)
+                .disabled(isDownloading)
+
+                Button("Open on GitHub".localizedByKey) {
                     if let url = URL(string: release.htmlUrl) {
                         NSWorkspace.shared.open(url)
                     }
-                    onDismiss()
                 }
-                .keyboardShortcut(.defaultAction)
+                .disabled(isDownloading)
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .padding(20)
         .frame(minWidth: 420, maxWidth: 420, alignment: .leading)
+    }
+
+    private func startDownloadAndInstall() {
+        downloadError = nil
+        isDownloading = true
+        UpdateInstallService.downloadRelease(release) { result in
+            isDownloading = false
+            switch result {
+            case let .success(url):
+                UpdateInstallService.installFromDMG(url)
+            case let .failure(error):
+                switch error {
+                case .missingDownloadURL:
+                    downloadError = "Unable to find a download for this update.".localizedByKey
+                case let .downloadFailed(message):
+                    downloadError = "Download failed: \(message)".localizedByKey
+                case .fileMoveFailed:
+                    downloadError = "Could not save downloaded file.".localizedByKey
+                }
+            }
+        }
     }
 }
